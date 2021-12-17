@@ -1,18 +1,19 @@
-const router = require('express').Router();
+const router = require("express").Router();
 const {
   userDoesNotExistAlready,
   hashThePassword,
-  reqBodyisPerfect,
+  reqBodyHasUsernameAndPassword,
+  credentialsAreValid,
 } = require("./auth-middleware");
 
 router.post(
-  '/register', 
-  reqBodyisPerfect,
+  "/register",
+  reqBodyHasUsernameAndPassword,
   userDoesNotExistAlready,
   hashThePassword,
   (req, res, next) => {
-  res.json('register endpoint');
-  /*
+    res.json("register endpoint");
+    /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
     DO NOT EXCEED 2^8 ROUNDS OF HASHING!
@@ -37,10 +38,15 @@ router.post(
     4- On FAILED registration due to the `username` being taken,
       the response body should include a string exactly as follows: "username taken".
   */
-});
+  }
+);
 
-router.post('/login', (req, res) => {
-  res.end('implement login, please!');
+router.post(
+  "/login", 
+  reqBodyHasUsernameAndPassword,
+  credentialsAreValid,
+  (req, res, next) => {
+  res.end("implement login, please!");
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
