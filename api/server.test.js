@@ -3,14 +3,14 @@ const db = require("../data/dbConfig");
 const server = require("./server");
 const { getAll, findById } = require("./models/users-model");
 
-const user = { username: "bob", password: 1 };
+const user = { username: "bo_peep", password: 1 };
 
 beforeAll(async () => {
   await db.migrate.rollback();
   await db.migrate.latest();
 });
 beforeEach(async () => {
-  await db("users").truncate();
+  // await db("users").truncate();
 });
 afterAll(async () => {
   await db.destroy();
@@ -25,14 +25,31 @@ test("correct env", () => {
 });
 
 describe("[POST] /register", () => {
-  test("cannot register if user already exists", async () => {
-    
-    
+  test("successful register", async () => {
+    const res = await request(server)
+      .post("/api/auth/register")
+      .send(user)
+    expect(res.body).toBeTruthy()
+  })
+  test("registered user isn't undefined", async () => {
+    const res = await request(server)
+      .post("/api/auth/register")
+      .send(user)
+    expect(res.body).not.toBe()
+  })
+});
 
-    // const id = await request(server).post("/api/auth/register").send(user);
-    // const [id] = await db("users").insert(user);
-
-    // const userInDB = await findById(id)
-    // expect(userInDB).toMatchObject({ id: 1, password: "1", username: "bob" })
+describe("[POST] /login", () => {
+  test("successful login", async () => {
+    const res = await request(server)
+      .post("/api/auth/login")
+      .send(user)
+    expect(res.body).toBeTruthy()
+  })
+  test("login doesn't not work", async () => {
+    const res = await request(server)
+      .post("/api/auth/login")
+      .send(user)
+    expect(res.body).not.toBe()
   })
 });
