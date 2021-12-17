@@ -1,7 +1,17 @@
 const router = require('express').Router();
+const {
+  userDoesNotExistAlready,
+  hashThePassword,
+  reqBodyisPerfect,
+} = require("./auth-middleware");
 
-router.post('/register', (req, res) => {
-  res.end('implement register, please!');
+router.post(
+  '/register', 
+  reqBodyisPerfect,
+  userDoesNotExistAlready,
+  hashThePassword,
+  (req, res, next) => {
+  res.json('register endpoint');
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
