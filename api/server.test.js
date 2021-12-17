@@ -10,7 +10,7 @@ beforeAll(async () => {
   await db.migrate.latest();
 });
 beforeEach(async () => {
-  // await db("users").truncate();
+  await db("users").truncate();
 });
 afterAll(async () => {
   await db.destroy();
